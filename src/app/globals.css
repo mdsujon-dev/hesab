@@ -1,26 +1,156 @@
-@import "tailwindcss";
+/*
+ * Ant Design owns the component styling. Tailwind is loaded for layout
+ * utilities only — preflight is deliberately NOT imported, because its
+ * element resets (button backgrounds, borders, heading sizes) fight antd's
+ * component styles.
+ */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+  /* Stops iOS Safari from zooming when a form field is focused. */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #f6f7f9;
+  color: #1f2430;
+  overscroll-behavior-y: none;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+/* Respect the notch / home indicator on installed PWAs. */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Room for the mobile bottom navigation bar. */
+.pb-nav {
+  padding-bottom: calc(76px + env(safe-area-inset-bottom));
+}
+
+/* --- Scrollbars: slim and unobtrusive ---------------------------------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d3d7e0 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d3d7e0;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bcc2cf;
+}
+
+/* The sidebar scrolls, but shows no scrollbar at all. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Horizontal scroll for wide content stays inside its own container. */
+.x-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- Small premium touches -------------------------------------------- */
+.gold-text {
+  background: linear-gradient(135deg, #d4af37 0%, #b8901f 55%, #8a6b13 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(184, 144, 31, 0.35),
+    transparent
+  );
+}
+
+.rise {
+  animation: rise 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Content swapping under a loader shouldn't flash — just dim it briefly. */
+.is-busy {
+  opacity: 0.55;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}
+
+/* Print / "Save as PDF": drop the chrome, keep the report. */
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-area {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
 }

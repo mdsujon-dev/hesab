@@ -1,0 +1,94 @@
+/* Table head — one colour everywhere, matched to the app's surface palette. */
+.ant-table-wrapper .ant-table-thead > tr > th {
+  background-color: #fafbfc !important;
+  color: #5b6474;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 0% !important;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Table body cell */
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  color: #1f2430;
+  font-size: 13px;
+}
+
+/* Zebra striping — a barely-there tint, enough to track a row across a wide
+   table without turning the surface grey. */
+.ant-table-wrapper .ant-table-tbody > tr:nth-child(odd) > td {
+  background-color: #fcfcfd;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr:nth-child(even) > td {
+  background-color: #ffffff;
+}
+
+/* Row hover — the app's gold tint, not a green from another project.
+   Solid, never translucent. A pinned column paints over the cells scrolling
+   underneath it, so anything less than fully opaque here shows the rows sliding
+   past *through* the frozen column — which reads as the column going
+   transparent whenever the pointer is on the row. */
+.ant-table-wrapper .ant-table-tbody > tr.ant-table-row:hover > td {
+  background: #fdf9ef;
+}
+
+/* Pinned (fixed) columns — left or right.
+   Ant Design paints these over the scrolling body, so they must carry their own
+   opaque background at every state: striped, hovered, and while the body is
+   being dragged sideways. */
+.ant-table-wrapper .ant-table-tbody > tr:nth-child(odd) > td.ant-table-cell-fix-left,
+.ant-table-wrapper .ant-table-tbody > tr:nth-child(odd) > td.ant-table-cell-fix-right {
+  background-color: #fcfcfd;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr:nth-child(even) > td.ant-table-cell-fix-left,
+.ant-table-wrapper .ant-table-tbody > tr:nth-child(even) > td.ant-table-cell-fix-right {
+  background-color: #ffffff;
+}
+
+.ant-table-wrapper
+  .ant-table-tbody
+  > tr.ant-table-row:hover
+  > td.ant-table-cell-fix-left,
+.ant-table-wrapper
+  .ant-table-tbody
+  > tr.ant-table-row:hover
+  > td.ant-table-cell-fix-right {
+  background-color: #fdf9ef;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th.ant-table-cell-fix-left,
+.ant-table-wrapper .ant-table-thead > tr > th.ant-table-cell-fix-right {
+  background-color: #fafbfc !important;
+}
+
+/* Table wrapper background */
+.ant-table-wrapper {
+  background-color: #fff;
+}
+
+/* The wrapper's own border is drawn by the card around it. */
+.data-table .ant-table {
+  border-radius: 8px;
+}
+
+/* Drag to scroll.
+   `pointer-events: none` is what stops a drag from selecting text or firing a
+   click at the end of it — it is only ever applied once the pointer has
+   actually moved (see DataTable.tsx), never on a plain press, or every button
+   inside the table would stop responding. */
+.is-dragging {
+  cursor: grabbing !important;
+  user-select: none;
+}
+.is-dragging table {
+  pointer-events: none;
+}
+
+/* Only offer the grab cursor when there is actually something to drag to. */
+.data-table .ant-table-content {
+  cursor: default;
+}
