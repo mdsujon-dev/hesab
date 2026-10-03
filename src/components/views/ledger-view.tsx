@@ -3,14 +3,12 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-  Card,
-  Col,
   DatePicker,
-  Row,
   Select,
   Space,
   Typography,
 } from "antd";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusOutlined } from "@ant-design/icons";
 import dayjs, { type Dayjs } from "dayjs";
@@ -100,95 +98,85 @@ export function LedgerView({ type }: { type: TxType }) {
     <Space orientation="vertical" size="middle" style={{ width: "100%" }}>
       <OfflineBanner />
 
-      <Card
-        variant="outlined"
-        styles={{ body: { padding: 12 } }}
-        className="no-print"
-      >
-        <Row gutter={[8, 8]} align="middle">
-          <Col xs={24} md={9}>
-            <RangePicker
-              value={range}
-              onChange={(value) => {
-                if (value?.[0] && value?.[1]) setRange([value[0], value[1]]);
-              }}
-              allowClear={false}
-              style={{ width: "100%" }}
-              format="DD MMM YYYY"
-              inputReadOnly
-              presets={[
-                {
-                  label: "This month",
-                  value: [dayjs().startOf("month"), dayjs().endOf("month")],
-                },
-                {
-                  label: "Last month",
-                  value: [
-                    dayjs().subtract(1, "month").startOf("month"),
-                    dayjs().subtract(1, "month").endOf("month"),
-                  ],
-                },
-                {
-                  label: "This year",
-                  value: [dayjs().startOf("year"), dayjs().endOf("year")],
-                },
-              ]}
-            />
-          </Col>
+      <Card compact className="no-print">
+        {/*
+          Flex with fixed control widths rather than a 24-column grid: the
+          controls only take the room they need, which keeps the two actions on
+          the same line instead of being pushed onto a second row.
+        */}
+        <div className="flex flex-wrap items-center gap-2">
+          <RangePicker
+            value={range}
+            onChange={(value) => {
+              if (value?.[0] && value?.[1]) setRange([value[0], value[1]]);
+            }}
+            allowClear={false}
+            style={{ width: 250 }}
+            format="DD MMM YYYY"
+            inputReadOnly
+            presets={[
+              {
+                label: "This month",
+                value: [dayjs().startOf("month"), dayjs().endOf("month")],
+              },
+              {
+                label: "Last month",
+                value: [
+                  dayjs().subtract(1, "month").startOf("month"),
+                  dayjs().subtract(1, "month").endOf("month"),
+                ],
+              },
+              {
+                label: "This year",
+                value: [dayjs().startOf("year"), dayjs().endOf("year")],
+              },
+            ]}
+          />
 
-          <Col xs={12} md={6}>
-            <Select
-              value={categoryId ?? ""}
-              onChange={(value) => setCategoryId(value || null)}
-              options={categoryOptions}
-              style={{ width: "100%" }}
-              showSearch
-              optionFilterProp="label"
-            />
-          </Col>
+          <Select
+            value={categoryId ?? ""}
+            onChange={(value) => setCategoryId(value || null)}
+            options={categoryOptions}
+            style={{ width: 168 }}
+            showSearch
+            optionFilterProp="label"
+          />
 
-          <Col xs={12} md={5}>
-            <Select<SortKey>
-              value={sort}
-              onChange={setSort}
-              style={{ width: "100%" }}
-              options={[
-                { value: "date-desc", label: "Newest first" },
-                { value: "date-asc", label: "Oldest first" },
-                { value: "amount-desc", label: "Highest amount" },
-                { value: "amount-asc", label: "Lowest amount" },
-              ]}
-            />
-          </Col>
+          <Select<SortKey>
+            value={sort}
+            onChange={setSort}
+            style={{ width: 148 }}
+            options={[
+              { value: "date-desc", label: "Newest first" },
+              { value: "date-asc", label: "Oldest first" },
+              { value: "amount-desc", label: "Highest amount" },
+              { value: "amount-asc", label: "Lowest amount" },
+            ]}
+          />
 
-          <Col xs={24} md={4}>
-            {/* Same pairing as the Transactions toolbar, so the two screens
-                do not put their primary action in different places. */}
-            <Space size={8} className="w-full md:justify-end" wrap>
-              <Button
-                tone="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setAdding(true)}
-              >
-                Add
-              </Button>
-              <ExportButtons
-                transactions={periodRows}
-                totals={totals}
-                currency={user.currency}
-                title={`${label} report`}
-                subtitle={`${fromKey} to ${toKey}`}
-                filename={reportFilename(type, fromKey, toKey)}
-              />
-            </Space>
-          </Col>
-        </Row>
+          <div className="ms-auto flex items-center gap-2">
+            <Button
+              tone="primary"
+              icon={<PlusOutlined />}
+              onClick={() => setAdding(true)}
+            >
+              Add
+            </Button>
+            <ExportButtons
+              transactions={periodRows}
+              totals={totals}
+              currency={user.currency}
+              title={`${label} report`}
+              subtitle={`${fromKey} to ${toKey}`}
+              filename={reportFilename(type, fromKey, toKey)}
+            />
+          </div>
+        </div>
       </Card>
 
       <SummaryCards totals={totals} currency={user.currency} />
 
       <Card
-        variant="outlined"
         title={
           <span className="flex items-center gap-2">
             {label} entries

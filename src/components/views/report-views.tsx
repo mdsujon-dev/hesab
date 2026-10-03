@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import {
   Button,
-  Card,
   Col,
   DatePicker,
   Row,
@@ -12,6 +11,7 @@ import {
   Statistic,
   Typography,
 } from "antd";
+import { Card } from "@/components/ui/card";
 import dayjs, { type Dayjs } from "dayjs";
 import { useWorkspace } from "@/components/providers/workspace-provider";
 import {
@@ -153,7 +153,7 @@ export function MonthlyReportView() {
 
       <Row gutter={[12, 12]}>
         <Col xs={12} md={8}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Daily average expense"
               value={report.totals.expense / report.series.length}
@@ -163,7 +163,7 @@ export function MonthlyReportView() {
           </Card>
         </Col>
         <Col xs={12} md={8}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Highest spending day"
               value={busiest ? `${busiest.label} ${MONTH_NAMES[month1 - 1]}` : "—"}
@@ -172,7 +172,7 @@ export function MonthlyReportView() {
           </Card>
         </Col>
         <Col xs={24} md={8}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Savings rate"
               value={
@@ -258,7 +258,7 @@ export function YearlyReportView() {
 
       <Row gutter={[12, 12]}>
         <Col xs={12} md={12}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Monthly average expense"
               value={report.totals.expense / 12}
@@ -268,7 +268,7 @@ export function YearlyReportView() {
           </Card>
         </Col>
         <Col xs={12} md={12}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Best month"
               value={best && best.balance !== 0 ? best.label : "—"}
@@ -278,7 +278,7 @@ export function YearlyReportView() {
         </Col>
       </Row>
 
-      <Card variant="outlined" title="Month by month">
+      <Card title="Month by month">
         <IncomeExpenseBars
           data={report.series}
           currency={user.currency}
@@ -368,7 +368,7 @@ export function CategoryReportView() {
 
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={10}>
-          <Card variant="outlined" title="Share of total">
+          <Card title="Share of total">
             <CategoryDonut
               data={data.breakdown}
               currency={user.currency}
@@ -377,7 +377,7 @@ export function CategoryReportView() {
           </Card>
         </Col>
         <Col xs={24} lg={14}>
-          <Card variant="outlined" title="Amount and contribution">
+          <Card title="Amount and contribution">
             <CategoryTable
               data={data.breakdown}
               currency={user.currency}
@@ -455,12 +455,12 @@ export function CustomReportView() {
 
       <Row gutter={[12, 12]}>
         <Col xs={12} md={8}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic title="Days in range" value={days} />
           </Card>
         </Col>
         <Col xs={12} md={8}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Average daily expense"
               value={report.totals.expense / days}
@@ -470,7 +470,7 @@ export function CustomReportView() {
           </Card>
         </Col>
         <Col xs={24} md={8}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Transactions"
               value={report.transactions.length}

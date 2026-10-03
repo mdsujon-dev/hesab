@@ -101,14 +101,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           }}
         >
           <div className="flex h-full flex-col">
+            {/* No divider here: the sidebar's own right-hand border is the
+                separation, and a second horizontal rule just adds noise. */}
             <Link
               href="/dashboard"
-              className="flex shrink-0 items-center gap-2 px-4 py-5 no-underline"
+              className="flex shrink-0 items-center gap-2 px-4 pb-2 pt-3 no-underline"
             >
-              {collapsed ? <LogoMark size={34} /> : <Logo height={42} priority />}
+              {collapsed ? <LogoMark size={32} /> : <Logo height={38} priority />}
             </Link>
-
-            <div className="gold-rule mx-4 mb-3 shrink-0" />
 
             {/* no-scrollbar: the nav scrolls but never shows a scrollbar. */}
             <div className="no-scrollbar flex-1 overflow-y-auto">
@@ -264,7 +264,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         }}
         title={<Logo height={38} />}
       >
-        <div className="gold-rule mx-4 mb-2" />
         <div className="flex h-full flex-col">
           <div className="flex-1 overflow-y-auto">
             {renderMenu(() => setDrawerOpen(false))}

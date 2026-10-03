@@ -1,6 +1,7 @@
 "use client";
 
-import { Card, Col, Progress, Row, Space, Table, Typography } from "antd";
+import { Col, Progress, Row, Space, Table, Typography } from "antd";
+import { Card } from "@/components/ui/card";
 import type { ColumnsType } from "antd/es/table";
 import { useWorkspace } from "@/components/providers/workspace-provider";
 import { OfflineBanner } from "@/components/shell/sync-status";
@@ -32,8 +33,7 @@ export function ReportToolbar({
 
   return (
     <Card
-      variant="outlined"
-      styles={{ body: { padding: 12 } }}
+      compact
       className="no-print"
     >
       {/*
@@ -122,7 +122,7 @@ export function CategoryTable({
   ];
 
   return (
-    <div className="x-scroll">
+    <div className="x-scroll data-table">
       <Table<CategorySlice>
         rowKey={(row) => row.categoryId ?? row.categoryName}
         columns={columns}
@@ -184,14 +184,14 @@ export function ReportBody({
       </div>
 
       {chart ? (
-        <Card variant="outlined" title="Income vs Expense">
+        <Card title="Income vs Expense">
           {chart}
         </Card>
       ) : null}
 
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={12}>
-          <Card variant="outlined" title="Expense by category">
+          <Card title="Expense by category">
             <CategoryDonut
               data={expenseByCategory}
               currency={user.currency}
@@ -208,7 +208,7 @@ export function ReportBody({
         </Col>
 
         <Col xs={24} lg={12}>
-          <Card variant="outlined" title="Income by category">
+          <Card title="Income by category">
             <CategoryDonut
               data={incomeByCategory}
               currency={user.currency}
@@ -226,7 +226,6 @@ export function ReportBody({
       </Row>
 
       <Card
-        variant="outlined"
         title={`Transactions (${transactions.length})`}
         styles={{ body: { paddingTop: 4 } }}
       >

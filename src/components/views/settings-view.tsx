@@ -5,7 +5,6 @@ import {
   App,
   Alert,
   Button,
-  Card,
   Descriptions,
   Input,
   Modal,
@@ -14,6 +13,7 @@ import {
   Tag,
   Typography,
 } from "antd";
+import { Card } from "@/components/ui/card";
 import {
   CloudDownloadOutlined,
   DatabaseOutlined,
@@ -99,7 +99,6 @@ export function SettingsView() {
   return (
     <Space orientation="vertical" size="middle" style={{ width: "100%" }}>
       <Card
-        variant="outlined"
         title="Sync and offline data"
         extra={
           <Tag color={online ? "success" : "warning"}>
@@ -168,7 +167,7 @@ export function SettingsView() {
         </Space>
       </Card>
 
-      <Card variant="outlined" title="Install the app">
+      <Card title="Install the app">
         <Typography.Paragraph type="secondary" className="!mb-2">
           Hesab works as an installable app. On Android or desktop Chrome, open
           the browser menu and choose <strong>Install app</strong>. On iPhone,
@@ -178,7 +177,7 @@ export function SettingsView() {
         </Typography.Paragraph>
       </Card>
 
-      <Card variant="outlined" title="About">
+      <Card title="About">
         <Descriptions
           size="small"
           column={1}
@@ -194,7 +193,7 @@ export function SettingsView() {
         />
       </Card>
 
-      <Card variant="outlined" title="Danger zone">
+      <Card title="Danger zone">
         <Space orientation="vertical" size="middle" style={{ width: "100%" }}>
           <Alert
             type="error"

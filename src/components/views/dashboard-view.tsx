@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Card, Col, Empty, Row, Space, Typography } from "antd";
+import { Col, Empty, Row, Space, Typography } from "antd";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRightOutlined,
@@ -113,7 +114,6 @@ export function DashboardView() {
       <Row gutter={[12, 12]}>
         <Col xs={24} xl={14}>
           <Card
-            variant="outlined"
             title="Income vs Expense"
             extra={
               <Link href="/reports/monthly">
@@ -130,7 +130,6 @@ export function DashboardView() {
 
         <Col xs={24} xl={10}>
           <Card
-            variant="outlined"
             title="Expenses by category"
             extra={
               <Link href="/reports/category">
@@ -147,7 +146,6 @@ export function DashboardView() {
       </Row>
 
       <Card
-        variant="outlined"
         title="Recent transactions"
         extra={
           <Link href="/transactions">

@@ -2,15 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  Card,
-  Col,
   DatePicker,
   Input,
-  Row,
   Select,
   Space,
   Typography,
 } from "antd";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import dayjs, { type Dayjs } from "dayjs";
@@ -124,6 +122,15 @@ export function TransactionsView() {
     [categories],
   );
 
+  const resetFilters = () => {
+    setSearch("");
+    setTypeFilter("all");
+    setCategoryId("");
+    setMethod("");
+    setRange(null);
+    setSort("date-desc");
+  };
+
   const hasFilters =
     Boolean(search) ||
     typeFilter !== "all" ||
@@ -136,157 +143,131 @@ export function TransactionsView() {
       <OfflineBanner />
 
       <Card
-        variant="outlined"
-        styles={{ body: { padding: 12 } }}
+        compact
         className="no-print"
       >
         <Space orientation="vertical" size={8} style={{ width: "100%" }}>
-          {/* Row 1: search, the type filter, and the two actions. */}
-          <Row gutter={[8, 8]} align="middle">
-            <Col xs={24} md={10} lg={11}>
-              <Input
-                allowClear
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                prefix={<SearchOutlined className="opacity-45" />}
-                suffix={<InlineSpinner active={paged.loading} />}
-                placeholder="Search note, category or amount"
-              />
-            </Col>
+          {/* Row 1: search, the type filter, and the two actions — one line. */}
+          <div className="flex flex-wrap items-center gap-2">
+            <Input
+              allowClear
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              prefix={<SearchOutlined className="opacity-45" />}
+              suffix={<InlineSpinner active={paged.loading} />}
+              placeholder="Search note, category or amount"
+              style={{ flex: "1 1 240px", minWidth: 200, maxWidth: 420 }}
+            />
 
-            <Col xs={24} sm={12} md={6} lg={5}>
-              <Select<TypeFilter>
-                value={typeFilter}
-                onChange={setTypeFilter}
-                style={{ width: "100%" }}
-                options={[
-                  { value: "all", label: "All transactions" },
-                  { value: "income", label: "Income only" },
-                  { value: "expense", label: "Expense only" },
-                ]}
-              />
-            </Col>
+            <Select<TypeFilter>
+              value={typeFilter}
+              onChange={setTypeFilter}
+              style={{ width: 168 }}
+              options={[
+                { value: "all", label: "All transactions" },
+                { value: "income", label: "Income only" },
+                { value: "expense", label: "Expense only" },
+              ]}
+            />
 
-            <Col xs={24} sm={12} md={8} lg={8}>
-              <Space size={8} className="w-full md:justify-end" wrap>
-                <Button
-                  tone="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => setAdding(true)}
-                >
-                  Add
-                </Button>
-                <ExportButtons
-                  transactions={totals.rows}
-                  totals={totals.totals}
-                  currency={user.currency}
-                  title="Transactions"
-                  subtitle={
-                    fromKey && toKey ? `${fromKey} to ${toKey}` : "All time"
-                  }
-                  filename={reportFilename("transactions")}
-                />
-              </Space>
-            </Col>
-          </Row>
+            <div className="ms-auto flex items-center gap-2">
+              <Button
+                tone="primary"
+                icon={<PlusOutlined />}
+                onClick={() => setAdding(true)}
+              >
+                Add
+              </Button>
+              <ExportButtons
+                transactions={totals.rows}
+                totals={totals.totals}
+                currency={user.currency}
+                title="Transactions"
+                subtitle={
+                  fromKey && toKey ? `${fromKey} to ${toKey}` : "All time"
+                }
+                filename={reportFilename("transactions")}
+              />
+            </div>
+          </div>
 
           {/* Row 2: the narrowing filters. */}
-          <Row gutter={[8, 8]} align="middle">
-            <Col xs={24} md={8}>
-              <RangePicker
-                value={range}
-                onChange={(value) =>
-                  setRange(
-                    value?.[0] && value?.[1] ? [value[0], value[1]] : null,
-                  )
-                }
-                style={{ width: "100%" }}
-                format="DD MMM YYYY"
-                inputReadOnly
-                presets={[
-                  {
-                    label: "This month",
-                    value: [dayjs().startOf("month"), dayjs().endOf("month")],
-                  },
-                  {
-                    label: "Last 30 days",
-                    value: [dayjs().subtract(29, "day"), dayjs()],
-                  },
-                  {
-                    label: "This year",
-                    value: [dayjs().startOf("year"), dayjs().endOf("year")],
-                  },
-                ]}
-              />
-            </Col>
-            <Col xs={12} md={5}>
-              <Select
-                value={categoryId}
-                onChange={setCategoryId}
-                options={categoryOptions}
-                style={{ width: "100%" }}
-                showSearch
-                optionFilterProp="label"
-              />
-            </Col>
-            <Col xs={12} md={5}>
-              <Select
-                value={method}
-                onChange={setMethod}
-                style={{ width: "100%" }}
-                options={[
-                  { value: "", label: "All methods" },
-                  ...PAYMENT_METHODS.map((item) => ({
-                    value: item,
-                    label: PAYMENT_METHOD_LABELS[item],
-                  })),
-                ]}
-              />
-            </Col>
-            <Col xs={16} md={4}>
-              <Select<SortKey>
-                value={sort}
-                onChange={setSort}
-                style={{ width: "100%" }}
-                options={[
-                  { value: "date-desc", label: "Newest first" },
-                  { value: "date-asc", label: "Oldest first" },
-                  { value: "amount-desc", label: "Highest amount" },
-                  { value: "amount-asc", label: "Lowest amount" },
-                ]}
-              />
-            </Col>
-            <Col xs={8} md={2}>
-              <div className="flex items-center justify-end gap-2">
-                {hasFilters ? (
-                  <Button
-                    type="text"
-                    size="small"
-                    onClick={() => {
-                      setSearch("");
-                      setTypeFilter("all");
-                      setCategoryId("");
-                      setMethod("");
-                      setRange(null);
-                      setSort("date-desc");
-                    }}
-                  >
-                    Clear
-                  </Button>
-                ) : (
-                  <Typography.Text type="secondary" className="text-xs">
-                    {paged.total} result{paged.total === 1 ? "" : "s"}
-                  </Typography.Text>
-                )}
-              </div>
-            </Col>
-          </Row>
+          <div className="flex flex-wrap items-center gap-2">
+            <RangePicker
+              value={range}
+              onChange={(value) =>
+                setRange(value?.[0] && value?.[1] ? [value[0], value[1]] : null)
+              }
+              style={{ width: 250 }}
+              format="DD MMM YYYY"
+              inputReadOnly
+              presets={[
+                {
+                  label: "This month",
+                  value: [dayjs().startOf("month"), dayjs().endOf("month")],
+                },
+                {
+                  label: "Last 30 days",
+                  value: [dayjs().subtract(29, "day"), dayjs()],
+                },
+                {
+                  label: "This year",
+                  value: [dayjs().startOf("year"), dayjs().endOf("year")],
+                },
+              ]}
+            />
+
+            <Select
+              value={categoryId}
+              onChange={setCategoryId}
+              options={categoryOptions}
+              style={{ width: 168 }}
+              showSearch
+              optionFilterProp="label"
+            />
+
+            <Select
+              value={method}
+              onChange={setMethod}
+              style={{ width: 148 }}
+              options={[
+                { value: "", label: "All methods" },
+                ...PAYMENT_METHODS.map((item) => ({
+                  value: item,
+                  label: PAYMENT_METHOD_LABELS[item],
+                })),
+              ]}
+            />
+
+            <Select<SortKey>
+              value={sort}
+              onChange={setSort}
+              style={{ width: 148 }}
+              options={[
+                { value: "date-desc", label: "Newest first" },
+                { value: "date-asc", label: "Oldest first" },
+                { value: "amount-desc", label: "Highest amount" },
+                { value: "amount-asc", label: "Lowest amount" },
+              ]}
+            />
+
+            <div className="ms-auto flex items-center gap-2">
+              {hasFilters ? (
+                <Button tone="quiet" size="small" onClick={resetFilters}>
+                  Clear
+                </Button>
+              ) : null}
+              <Typography.Text type="secondary" className="text-xs">
+                {paged.total} result{paged.total === 1 ? "" : "s"}
+              </Typography.Text>
+            </div>
+          </div>
         </Space>
       </Card>
 
       <SummaryCards totals={totals.totals} currency={user.currency} />
 
-      <Card variant="outlined" styles={{ body: { paddingTop: 4 } }}>
+      <Card styles={{ body: { paddingTop: 4 } }}>
         <TransactionList
           transactions={paged.rows}
           currency={user.currency}

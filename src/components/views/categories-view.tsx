@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import {
   App,
-  Card,
   Col,
   Empty,
   Form,
@@ -15,6 +14,7 @@ import {
   Tag,
   Typography,
 } from "antd";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useWorkspace } from "@/components/providers/workspace-provider";
@@ -147,7 +147,7 @@ export function CategoriesView() {
         </Col>
       </Row>
 
-      <Card variant="outlined" styles={{ body: { paddingTop: 4 } }}>
+      <Card styles={{ body: { paddingTop: 4 } }}>
         {visible.length === 0 ? (
           <Empty
             image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -172,7 +172,7 @@ export function CategoriesView() {
                     variant="outlined"
                     size="small"
                     style={{ height: "100%" }}
-                    styles={{ body: { padding: 12 } }}
+                    compact
                     actions={[
                       <Button
                         key="edit"

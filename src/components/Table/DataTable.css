@@ -70,9 +70,17 @@
   background-color: #fff;
 }
 
-/* The wrapper's own border is drawn by the card around it. */
+/* Every table carries its own hairline frame, so it reads as one object
+   inside whatever card it sits in. */
 .data-table .ant-table {
+  border: 1px solid #e6e8ee;
   border-radius: 8px;
+  overflow: hidden;
+}
+
+/* The frame supplies the outer edge, so cells only need inner rules. */
+.data-table .ant-table-tbody > tr:last-child > td {
+  border-bottom: none;
 }
 
 /* Drag to scroll.

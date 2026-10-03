@@ -1,6 +1,7 @@
 "use client";
 
-import { Card, Col, Row, Statistic } from "antd";
+import { Col, Row, Statistic } from "antd";
+import { Card } from "@/components/ui/card";
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
@@ -60,15 +61,9 @@ export function SummaryCards({
       {tiles.map((tile) => (
         <Col key={tile.key} {...tile.span}>
           <Card
-            variant="outlined"
             size="small"
             styles={{ body: { padding: 16 } }}
-            style={{
-              height: "100%",
-              // A hairline of the tile's own colour along the top edge.
-              backgroundImage: `linear-gradient(180deg, ${tile.color}14 0%, transparent 46%)`,
-              borderTop: `2px solid ${tile.color}`,
-            }}
+            style={{ height: "100%" }}
           >
             <Statistic
               title={

@@ -4,7 +4,6 @@ import { useState } from "react";
 import {
   App,
   Avatar,
-  Card,
   Col,
   Descriptions,
   Form,
@@ -15,6 +14,7 @@ import {
   Statistic,
   Typography,
 } from "antd";
+import { Card } from "@/components/ui/card";
 import { LockOutlined, SaveOutlined } from "@ant-design/icons";
 import { Button } from "@/components/ui/button";
 import { useWorkspace } from "@/components/providers/workspace-provider";
@@ -95,7 +95,7 @@ export function ProfileView() {
 
   return (
     <Space orientation="vertical" size="middle" style={{ width: "100%" }}>
-      <Card variant="outlined">
+      <Card>
         <div className="flex flex-wrap items-center gap-4">
           <Avatar
             size={64}
@@ -119,12 +119,12 @@ export function ProfileView() {
 
       <Row gutter={[12, 12]}>
         <Col xs={12} md={6}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic title="Transactions" value={transactions.length} />
           </Card>
         </Col>
         <Col xs={12} md={6}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Total income"
               value={totals.income}
@@ -134,7 +134,7 @@ export function ProfileView() {
           </Card>
         </Col>
         <Col xs={12} md={6}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Total expense"
               value={totals.expense}
@@ -144,7 +144,7 @@ export function ProfileView() {
           </Card>
         </Col>
         <Col xs={12} md={6}>
-          <Card variant="outlined" size="small">
+          <Card size="small">
             <Statistic
               title="Tracking since"
               value={firstEntry ? formatDate(firstEntry.date) : "—"}
@@ -156,7 +156,7 @@ export function ProfileView() {
 
       <Row gutter={[12, 12]}>
         <Col xs={24} lg={12}>
-          <Card variant="outlined" title="Account details">
+          <Card title="Account details">
             <Form<ProfileValues>
               form={profileForm}
               layout="vertical"
@@ -234,7 +234,7 @@ export function ProfileView() {
         </Col>
 
         <Col xs={24} lg={12}>
-          <Card variant="outlined" title="Change password">
+          <Card title="Change password">
             <Form<PasswordValues>
               form={passwordForm}
               layout="vertical"
